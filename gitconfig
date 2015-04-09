@@ -1,0 +1,22 @@
+[user]
+	name = kaihaosw
+	email = kaihaosw@gmail.com
+[core]
+	editor = emacsclient
+	excludesfile = ~/.gitignore_global
+[alias]
+	br = branch
+	ci = commit
+	st = status -s
+	df = diff
+	co = checkout
+	cob = checkout -b
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	logs = log --oneline --decorate --abbrev-commit --graph --all
+[push]
+	default = current	
+[merge]
+	tool = ediff
+[mergetool "ediff"]
+	cmd = emacsclient -c -a \"\"  --eval \"(ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\")\"

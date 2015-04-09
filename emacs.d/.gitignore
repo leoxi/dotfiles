@@ -1,0 +1,15 @@
+*.elc
+smex-items
+.mc-lists.el
+ac-comphist.dat
+places
+tramp
+recentf
+custom.el
+backups/
+elpa/
+eshell/
+auto-save-list/
+url/
+ensime/
+.python-environments/

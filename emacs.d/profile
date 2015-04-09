@@ -1,0 +1,7 @@
+export WORKON_HOME=$HOME/.virtualenvs
+export TERM="emacsclient"
+
+(ignore
+ (when (executable-find "fortune")
+   (eshell-interactive-print
+    (shell-command-to-string "fortune 70% computers computers -o"))))
