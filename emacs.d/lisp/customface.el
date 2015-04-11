@@ -10,8 +10,9 @@
         (base0E "#9b859d") (base0F "#9b703f"))
     (custom-set-faces
      `(mode-line ((t (:background ,base01))))
-     `(fringe ((t (:background ,base01))))
-     `(vertical-border ((t (:foreground ,base00))))
+     `(fringe ((t (:background nil :foreground ,base03))))
+     `(linum ((t (:background nil))))
+     `(vertical-border ((t (:foreground ,base02))))
      `(eshell-ls-directory ((t (:foreground ,base0C))))
      `(eshell-ls-readonly ((t (:foreground ,base05))))
      `(eshell-ls-product ((t (:foreground ,base05))))

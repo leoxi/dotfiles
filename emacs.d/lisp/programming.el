@@ -1,6 +1,7 @@
 (require-package 'idle-highlight-mode)
 (add-hook 'prog-mode-hook
           (lambda ()
+            (linum-mode t)
             (set (make-local-variable 'comment-auto-fill-only-comments) t)
             (make-local-variable 'column-number-mode)
             (column-number-mode t)

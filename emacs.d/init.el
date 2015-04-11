@@ -34,6 +34,7 @@
 (require-package '(better-defaults cl s dash))
 (require 'server)
 (unless (server-running-p) (server-start))
+(fringe-mode 4)
 (load custom-file t)
 (tooltip-mode -1)
 (blink-cursor-mode -1)
