@@ -1,31 +1,31 @@
-;; Base16 Twilight (https://github.com/chriskempson/base16)
-;; Scheme: David Hart (http://hart-dev.com)
+;; Base16 Ocean (https://github.com/chriskempson/base16)
+;; Scheme: Chris Kempson (http://chriskempson.com)
 
-;;; base16-twilight-dark-theme.el
+;;; base16-ocean-dark-theme.el
 
 ;;; Code:
 
-(deftheme base16-twilight-dark)
+(deftheme base16-ocean-dark)
 
-(let ((base00 "#1e1e1e")
-      (base01 "#323537")
-      (base02 "#464b50")
-      (base03 "#5f5a60")
-      (base04 "#838184")
-      (base05 "#a7a7a7")
-      (base06 "#c3c3c3")
-      (base07 "#ffffff")
-      (base08 "#cf6a4c")
-      (base09 "#cda869")
-      (base0A "#f9ee98")
-      (base0B "#8f9d6a")
-      (base0C "#afc4db")
-      (base0D "#7587a6")
-      (base0E "#9b859d")
-      (base0F "#9b703f"))
+(let ((base00 "#2b303b")
+      (base01 "#343d46")
+      (base02 "#4f5b66")
+      (base03 "#65737e")
+      (base04 "#a7adba")
+      (base05 "#c0c5ce")
+      (base06 "#dfe1e8")
+      (base07 "#eff1f5")
+      (base08 "#bf616a")
+      (base09 "#d08770")
+      (base0A "#ebcb8b")
+      (base0B "#a3be8c")
+      (base0C "#96b5b4")
+      (base0D "#8fa1b3")
+      (base0E "#b48ead")
+      (base0F "#ab7967"))
 
   (custom-theme-set-faces 
-   'base16-twilight-dark
+   'base16-ocean-dark
 
    ;; Built-in stuff (Emacs 23)
    `(border ((t (:background ,base03))))
@@ -442,7 +442,7 @@
    
 
   (custom-theme-set-variables
-   'base16-twilight-dark
+   'base16-ocean-dark
 
    `(ansi-color-names-vector
      ;; black, base08, base0B, base0A, base0D, magenta, cyan, white
@@ -451,6 +451,6 @@
      ;; black, base08, base0B, base0A, base0D, magenta, cyan, white
      [unspecified ,base00 ,base08 ,base0B ,base0A ,base0D ,base0E ,base0D ,base05])))
 
-(provide-theme 'base16-twilight-dark)
+(provide-theme 'base16-ocean-dark)
 
-;;; base16-twilight-dark-theme.el ends here
+;;; base16-ocean-dark-theme.el ends here
