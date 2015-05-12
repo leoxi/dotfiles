@@ -16,6 +16,13 @@
             (font-lock-add-keywords
              nil `(("\\<\\(FIXME\\|TODO\\)" 1 'font-lock-warning-face prepend)))))
 
+;; javascript
+(require-package '(tern company-tern))
+(with-eval-after-load "js"
+  (setq js-indent-level 2)
+  (add-to-list 'company-backends 'company-tern)
+  (add-hook 'js-mode-hook 'tern-mode))
+
 ;; python
 (require-package '(virtualenvwrapper pcmpl-pip company-jedi py-autopep8))
 (with-eval-after-load "python"

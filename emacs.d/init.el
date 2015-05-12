@@ -41,7 +41,7 @@
 (global-set-key (kbd "M-g") 'goto-line)
 (global-set-key (kbd "C-x C-k") 'kill-region)
 (global-set-key (kbd "C-c C-k") 'compile)
-(global-set-key (kbd "<f10>") 'toggle-frame-maximized)
+(global-set-key (kbd "<f10>") 'toggle-frame-fullscreen)
 (global-unset-key (kbd "C-z"))
 (when (member "Consolas" (font-family-list))
   (set-face-font 'default "Consolas-13"))
@@ -118,7 +118,8 @@
                 '(("Shell" (or (mode . eshell-mode)
                                (mode . shell-mode))))
                 (ibuffer-project)
-                '(("ERC" (mode . erc-mode))
+                '(("Magit" (derived-mode . magit-mode))
+                  ("ERC" (mode . erc-mode))
                   ("Mail" (or (mode . mu4e-compose-mode)
                               (mode . mu4e-headers-mode)
                               (mode . mu4e-view-mode)
@@ -177,7 +178,8 @@
 (defadvice magit-mode-quit-window (after magit-restore-screen activate)
   (jump-to-register :magit-fullscreen))
 
-(require-package '(gitignore-mode gitconfig-mode pcmpl-git))
+(require-package '(gitignore-mode gitconfig-mode pcmpl-git git-timemachine))
+(with-eval-after-load "git-timemachine" (diminish 'git-timemachine-mode))
 (require-package '(markdown-mode yaml-mode))
 
 (require-package 'smart-mode-line)
