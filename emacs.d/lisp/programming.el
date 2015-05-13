@@ -10,18 +10,26 @@
             (add-hook 'after-save-hook 'check-parens nil t)
             (idle-highlight-mode t)
             (push '("lambda" . 955) prettify-symbols-alist)
-            (prettify-symbols-mode t)
             (company-mode t)
             (define-key prog-mode-map (kbd "C-\\") 'company-complete)
             (font-lock-add-keywords
              nil `(("\\<\\(FIXME\\|TODO\\)" 1 'font-lock-warning-face prepend)))))
 
 ;; javascript
-(require-package '(tern company-tern))
-(with-eval-after-load "js"
-  (setq js-indent-level 2)
+(require-package '(js2-mode tern company-tern))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(with-eval-after-load "js2-mode"
+  (setq js2-missing-semi-one-line-override t)
+  (with-eval-after-load "tern" (diminish 'tern-mode))
   (add-to-list 'company-backends 'company-tern)
-  (add-hook 'js-mode-hook 'tern-mode))
+  (add-hook 'js2-mode-hook
+            (lambda ()
+              (setq js2-basic-offset 2
+                    mode-name "js2")
+              (tern-mode)
+              (push '("function" . 402) prettify-symbols-alist)
+              (add-hook 'first-change-hook 'js2-mode-hide-warnings-and-errors nil t)
+              (add-hook 'after-save-hook 'js2-mode-display-warnings-and-errors nil t))))
 
 ;; python
 (require-package '(virtualenvwrapper pcmpl-pip company-jedi py-autopep8))
