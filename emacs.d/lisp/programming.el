@@ -16,17 +16,28 @@
              nil `(("\\<\\(FIXME\\|TODO\\)" 1 'font-lock-warning-face prepend)))))
 
 ;; javascript
-(require-package '(js2-mode tern company-tern))
+(require-package '(js2-mode tern company-tern skewer-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (with-eval-after-load "js2-mode"
+  (setq-default js2-basic-offset 2)
   (setq js2-missing-semi-one-line-override t)
-  (with-eval-after-load "tern" (diminish 'tern-mode))
+
+  (with-eval-after-load "tern"
+    (setq tern-command (append tern-command '("--no-port-file")))
+    (diminish 'tern-mode))
   (add-to-list 'company-backends 'company-tern)
+
+  (with-eval-after-load "skewer-mode"
+    (define-key skewer-mode-map (kbd "C-`") 'run-skewer)
+    (define-key skewer-mode-map (kbd "C-c C-e") 'skewer-eval-defun)
+    (define-key skewer-mode-map (kbd "C-c C-b") 'skewer-load-buffer)
+    (diminish 'skewer-mode))
+
   (add-hook 'js2-mode-hook
             (lambda ()
-              (setq js2-basic-offset 2
-                    mode-name "js2")
+              (setq mode-name "js2")
               (tern-mode)
+              (skewer-mode)
               (push '("function" . 402) prettify-symbols-alist)
               (add-hook 'first-change-hook 'js2-mode-hide-warnings-and-errors nil t)
               (add-hook 'after-save-hook 'js2-mode-display-warnings-and-errors nil t))))

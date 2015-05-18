@@ -94,8 +94,7 @@
                                    (:t (eq major-mode
                                            (with-current-buffer it major-mode))))
                              (buffer-list))))
-      (flet ((buffer-list () matching-buffers))
-        (try-expand-dabbrev-all-buffers old))))
+      (flet ((buffer-list () matching-buffers)) (try-expand-dabbrev-all-buffers old))))
 
   (setq hippie-expand-try-functions-list '(try-expand-dabbrev
                                            try-expand-dabbrev-matching-buffers
@@ -108,7 +107,7 @@
                (--map (list (concat "Project: " (file-name-base it))
                             `(filename . ,it))
                       (directory-files dir 'full "^[^\.]")))
-             '("~/fun/" "~/Dropbox/codes/")))
+             '("~/fun/" "~/work/" "~/Dropbox/codes/")))
 
   (setq ibuffer-expert t
         ibuffer-show-empty-filter-groups nil
