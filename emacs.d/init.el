@@ -65,7 +65,7 @@
 (flx-ido-mode t)
 
 (setq recentf-auto-cleanup 'never
-      recentf-max-saved-items 50
+      recentf-max-saved-items 200
       recentf-exclude '("COMMIT_EDITMSG" ".*-autoloads\\.el\\'"))
 (recentf-mode t)
 (defun recentf-ido-find-file ()
@@ -167,6 +167,10 @@
 (define-key sp-keymap (kbd "C-}") 'sp-forward-barf-sexp)
 (define-key sp-keymap (kbd "C-{") 'sp-backward-barf-sexp)
 (define-key sp-keymap (kbd "M-D") 'sp-splice-sexp)
+(sp-with-modes '(html-mode)
+  (sp-local-pair "{{" " }}")
+  (sp-local-pair "{#" " #}")
+  (sp-local-pair "{%" " %}"))
 
 (require-package 'magit)
 (with-eval-after-load "magit" (diminish 'magit-auto-revert-mode))

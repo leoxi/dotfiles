@@ -26,7 +26,7 @@
      `(eshell-ls-executable ((t (:foreground ,base08))))
      `(eshell-ls-special ((t (:foreground ,base0B))))
      `(anzu-mode-line ((t (:foreground ,base0E))))
-     `(idle-highlight ((t (:background ,base01))))
+     `(idle-highlight ((t (:background ,base03))))
      `(company-tooltip ((t (:inherit highlight))))
      `(company-tooltip-selection ((t (:inherit match))))
      `(company-tooltip-common ((t (:inherit company-tooltip :weight bold))))

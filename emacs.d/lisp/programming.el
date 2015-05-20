@@ -43,28 +43,36 @@
               (add-hook 'after-save-hook 'js2-mode-display-warnings-and-errors nil t))))
 
 ;; python
-(require-package '(virtualenvwrapper pcmpl-pip company-jedi py-autopep8))
+(require-package '(virtualenvwrapper pcmpl-pip elpy py-autopep8))
 (with-eval-after-load "python"
-  (setq python-check-command "flake8")
-
   (defun fun-run-python ()
     (interactive)
     (let ((buffer-proc (format "*%s*" (python-shell-get-process-name nil))))
       (if (comint-check-proc buffer-proc)
           (switch-to-buffer-other-window buffer-proc)
-        (run-python python-shell-interpreter nil t))))
-
-  (add-to-list 'company-backends 'company-jedi)
-  (autoload 'jedi:show-doc "jedi-core" "" t)
-  (autoload 'jedi:goto-definition "jedi-core" "" t)
+        (run-python (read-string "Run Python: " (python-shell-parse-command)) nil t))))
 
   (define-key python-mode-map (kbd "C-c TAB") '(lambda () (interactive)))
   (define-key python-mode-map (kbd "C-`") 'fun-run-python)
   (define-key python-mode-map (kbd "C-c C-z") 'fun-run-python)
   (define-key python-mode-map (kbd "C-c C-e") 'python-shell-send-defun)
   (define-key python-mode-map (kbd "C-c C-b") 'python-shell-send-buffer)
-  (define-key python-mode-map (kbd "C-c ?") 'jedi:show-doc)
-  (define-key python-mode-map (kbd "M-.") 'jedi:goto-definition))
+
+  (with-eval-after-load "elpy"
+    (diminish 'elpy-mode)
+    (setq elpy-rpc-backend "jedi"
+          elpy-modules '(elpy-module-sane-defaults
+                         elpy-module-company
+                         elpy-module-eldoc))
+
+    (defadvice elpy-doc--show (after change-mode activate)
+      (with-current-buffer "*Python Doc*"
+        (rst-mode)))
+
+    (define-key elpy-mode-map (kbd "C-c C-r") 'python-shell-send-region)
+    (define-key elpy-mode-map (kbd "C-c C-z") 'fun-run-python))
+
+  (add-hook 'python-mode-hook 'elpy-mode))
 
 ;; scala
 (require-package '(scala-mode2 sbt-mode))
