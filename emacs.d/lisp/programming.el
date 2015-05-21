@@ -43,8 +43,19 @@
               (add-hook 'after-save-hook 'js2-mode-display-warnings-and-errors nil t))))
 
 ;; python
-(require-package '(virtualenvwrapper pcmpl-pip elpy py-autopep8))
+(require-package '(virtualenvwrapper pcmpl-pip py-autopep8))
+(require-package '(anaconda-mode company-anaconda))
 (with-eval-after-load "python"
+  (with-eval-after-load "anaconda-mode"
+    (diminish 'anaconda-mode)
+    (diminish 'eldoc-mode)
+
+    (defadvice anaconda-mode-doc-buffer (after change-mode activate)
+      (with-current-buffer "*anaconda-doc*"
+        (rst-mode))))
+
+  (add-to-list 'company-backends 'company-anaconda)
+
   (defun fun-run-python ()
     (interactive)
     (let ((buffer-proc (format "*%s*" (python-shell-get-process-name nil))))
@@ -58,21 +69,10 @@
   (define-key python-mode-map (kbd "C-c C-e") 'python-shell-send-defun)
   (define-key python-mode-map (kbd "C-c C-b") 'python-shell-send-buffer)
 
-  (with-eval-after-load "elpy"
-    (diminish 'elpy-mode)
-    (setq elpy-rpc-backend "jedi"
-          elpy-modules '(elpy-module-sane-defaults
-                         elpy-module-company
-                         elpy-module-eldoc))
-
-    (defadvice elpy-doc--show (after change-mode activate)
-      (with-current-buffer "*Python Doc*"
-        (rst-mode)))
-
-    (define-key elpy-mode-map (kbd "C-c C-r") 'python-shell-send-region)
-    (define-key elpy-mode-map (kbd "C-c C-z") 'fun-run-python))
-
-  (add-hook 'python-mode-hook 'elpy-mode))
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (anaconda-mode t)
+              (eldoc-mode t))))
 
 ;; scala
 (require-package '(scala-mode2 sbt-mode))
