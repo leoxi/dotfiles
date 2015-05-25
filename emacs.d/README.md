@@ -7,6 +7,7 @@ Javascript
 ----------
     brew install node
     npm install -g tern
+    npm install -g jshint
 
 Python
 ------

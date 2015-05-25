@@ -15,6 +15,18 @@
             (font-lock-add-keywords
              nil `(("\\<\\(FIXME\\|TODO\\)" 1 'font-lock-warning-face prepend)))))
 
+;; web
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(require-package '(web-mode))
+(with-eval-after-load "web-mode"
+  (setq web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2
+        web-mode-engines-alist '(("jinja" . "\\.html?\\'")))
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (smartparens-mode -1))))
+
 ;; javascript
 (require-package '(js2-mode tern company-tern skewer-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
@@ -36,11 +48,10 @@
   (add-hook 'js2-mode-hook
             (lambda ()
               (setq mode-name "js2")
+              (js2-mode-hide-warnings-and-errors)
               (tern-mode)
               (skewer-mode)
-              (push '("function" . 402) prettify-symbols-alist)
-              (add-hook 'first-change-hook 'js2-mode-hide-warnings-and-errors nil t)
-              (add-hook 'after-save-hook 'js2-mode-display-warnings-and-errors nil t))))
+              (push '("function" . 402) prettify-symbols-alist))))
 
 ;; python
 (require-package '(virtualenvwrapper pcmpl-pip py-autopep8))
@@ -55,6 +66,12 @@
         (rst-mode))))
 
   (add-to-list 'company-backends 'company-anaconda)
+
+  (defun python-insert-pdb ()
+    (interactive)
+    (insert "\n")
+    (python-indent-line)
+    (insert "import pdb; pdb.set_trace()\n"))
 
   (defun fun-run-python ()
     (interactive)

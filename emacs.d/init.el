@@ -167,10 +167,6 @@
 (define-key sp-keymap (kbd "C-}") 'sp-forward-barf-sexp)
 (define-key sp-keymap (kbd "C-{") 'sp-backward-barf-sexp)
 (define-key sp-keymap (kbd "M-D") 'sp-splice-sexp)
-(sp-with-modes '(html-mode)
-  (sp-local-pair "{{" " }}")
-  (sp-local-pair "{#" " #}")
-  (sp-local-pair "{%" " %}"))
 
 (require-package 'magit)
 (with-eval-after-load "magit" (diminish 'magit-auto-revert-mode))
@@ -215,6 +211,12 @@
   (diminish 'company-mode)
   (define-key company-active-map (kbd "C-n") 'company-select-next)
   (define-key company-active-map (kbd "C-p") 'company-select-previous))
+
+(require-package '(flycheck flycheck-pos-tip))
+(global-flycheck-mode t)
+(diminish 'flycheck-mode)
+(setq flycheck-check-syntax-automatically '(save mode-enabled)
+      flycheck-display-errors-function #'flycheck-pos-tip-error-messages)
 
 (load "util.el")
 (load "shells-conf.el")
