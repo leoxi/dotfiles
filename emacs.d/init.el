@@ -129,6 +129,7 @@
   (add-hook 'ibuffer-mode-hook
             (lambda ()
               (ibuffer-auto-mode t)
+              (ibuffer-do-sort-by-filename/process)
               (ibuffer-switch-to-saved-filter-groups "default"))))
 
 (setq display-time-default-load-average nil

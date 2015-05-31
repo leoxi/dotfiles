@@ -22,10 +22,13 @@
   (setq web-mode-markup-indent-offset 2
         web-mode-css-indent-offset 2
         web-mode-code-indent-offset 2
+        web-mode-enable-auto-pairing nil
         web-mode-engines-alist '(("jinja" . "\\.html?\\'")))
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (smartparens-mode -1))))
+  (with-eval-after-load "smartparens-config"
+    (sp-with-modes '(web-mode)
+      (sp-local-pair "{{" " }}")
+      (sp-local-pair "{#" " #}")
+      (sp-local-pair "{%" " %}"))))
 
 ;; javascript
 (require-package '(js2-mode tern company-tern skewer-mode))
