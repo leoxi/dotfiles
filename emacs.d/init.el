@@ -144,6 +144,7 @@
 (with-eval-after-load "abbrev" (diminish 'abbrev-mode))
 (with-eval-after-load "autorevert" (diminish 'auto-revert-mode))
 (with-eval-after-load "isearch" (diminish 'isearch-mode))
+(with-eval-after-load "eldoc" (diminish 'eldoc-mode))
 
 (require-package 'undo-tree)
 (global-undo-tree-mode)

@@ -62,7 +62,6 @@
 (with-eval-after-load "python"
   (with-eval-after-load "anaconda-mode"
     (diminish 'anaconda-mode)
-    (diminish 'eldoc-mode)
 
     (defadvice anaconda-mode-doc-buffer (after change-mode activate)
       (with-current-buffer "*anaconda-doc*"
@@ -95,69 +94,69 @@
               (eldoc-mode t))))
 
 ;; scala
-(require-package '(scala-mode2 sbt-mode))
-(with-eval-after-load "scala-mode2"
-  (require 'sbt-mode)
-  (setq compilation-skip-threshold 1)
-  (define-key sbt:mode-map (kbd "C-a") 'comint-bol)
-  (define-key sbt:mode-map (kbd "M-RET") 'comint-accumulate)
+;; (require-package '(scala-mode2 sbt-mode))
+;; (with-eval-after-load "scala-mode2"
+;;   (require 'sbt-mode)
+;;   (setq compilation-skip-threshold 1)
+;;   (define-key sbt:mode-map (kbd "C-a") 'comint-bol)
+;;   (define-key sbt:mode-map (kbd "M-RET") 'comint-accumulate)
 
-  (defun sbt-start ()
-    (interactive)
-    (sbt:run-sbt)
-    (when (comint-check-proc (sbt:buffer-name))
-      (pop-to-buffer (sbt:buffer-name))))
+;;   (defun sbt-start ()
+;;     (interactive)
+;;     (sbt:run-sbt)
+;;     (when (comint-check-proc (sbt:buffer-name))
+;;       (pop-to-buffer (sbt:buffer-name))))
 
-  (defun sbt-send-buffer ()
-    (interactive)
-    (sbt-send-region (point-min) (point-max)))
+;;   (defun sbt-send-buffer ()
+;;     (interactive)
+;;     (sbt-send-region (point-min) (point-max)))
 
-  (defun sbt-add-scala-source-files ()
-    (let ((source "/usr/local/Cellar/scala/2.11.6/libexec/src/library")
-          (target (concat (sbt:find-root) ".source")))
-      (cond ((not (file-exists-p source))
-             (error (concat source " not exists!")))
-            ((not (file-exists-p target))
-             (make-directory target)
-             (copy-directory source target)))))
+;;   (defun sbt-add-scala-source-files ()
+;;     (let ((source "/usr/local/Cellar/scala/2.11.6/libexec/src/library")
+;;           (target (concat (sbt:find-root) ".source")))
+;;       (cond ((not (file-exists-p source))
+;;              (error (concat source " not exists!")))
+;;             ((not (file-exists-p target))
+;;              (make-directory target)
+;;              (copy-directory source target)))))
 
-  (defun scala-toggle-test ()
-    (interactive)
-    (let ((bf buffer-file-name))
-      (find-file
-       (if (s-match "Test.scala$" bf)
-           (s-replace-all '(("/src/test/" . "/src/main/")
-                            ("Test.scala" . ".scala")) bf)
-         (s-replace-all '(("/src/main/" . "/src/test/")
-                          (".scala" . "Test.scala")) bf)))))
+;;   (defun scala-toggle-test ()
+;;     (interactive)
+;;     (let ((bf buffer-file-name))
+;;       (find-file
+;;        (if (s-match "Test.scala$" bf)
+;;            (s-replace-all '(("/src/test/" . "/src/main/")
+;;                             ("Test.scala" . ".scala")) bf)
+;;          (s-replace-all '(("/src/main/" . "/src/test/")
+;;                           (".scala" . "Test.scala")) bf)))))
 
-  (defun scala-guess-package-from-path ()
-    (s-replace
-     "/" "."
-     (s-chop-suffix
-      "/"
-      (replace-regexp-in-string "^.*/src/\\(main\\|test\\)/scala/" ""
-                                (file-name-directory buffer-file-name)))))
+;;   (defun scala-guess-package-from-path ()
+;;     (s-replace
+;;      "/" "."
+;;      (s-chop-suffix
+;;       "/"
+;;       (replace-regexp-in-string "^.*/src/\\(main\\|test\\)/scala/" ""
+;;                                 (file-name-directory buffer-file-name)))))
 
-  (defun scala-package-name-from-path ()
-    (interactive)
-    (save-excursion
-      (goto-char 0)
-      (when (looking-at "package ")
-        (kill-line 1))
-      (insert (format "package %s\n" (scala-guess-package-from-path)))))
+;;   (defun scala-package-name-from-path ()
+;;     (interactive)
+;;     (save-excursion
+;;       (goto-char 0)
+;;       (when (looking-at "package ")
+;;         (kill-line 1))
+;;       (insert (format "package %s\n" (scala-guess-package-from-path)))))
 
-  (add-hook 'scala-mode-hook
-            (lambda ()
-              (when (sbt:find-root)
-                (sbt-add-scala-source-files))))
+;;   (add-hook 'scala-mode-hook
+;;             (lambda ()
+;;               (when (sbt:find-root)
+;;                 (sbt-add-scala-source-files))))
 
-  (define-key scala-mode-map (kbd "C-`") 'sbt-start)
-  (define-key scala-mode-map (kbd "C-c C-z") 'sbt-start)
-  (define-key scala-mode-map (kbd "C-c C-r") 'sbt-send-region)
-  (define-key scala-mode-map (kbd "C-c C-b") 'sbt-send-buffer)
-  (define-key scala-mode-map (kbd "C-c C-k") 'sbt-command)
-  (define-key scala-mode-map (kbd "M-.") 'sbt-find-definitions))
+;;   (define-key scala-mode-map (kbd "C-`") 'sbt-start)
+;;   (define-key scala-mode-map (kbd "C-c C-z") 'sbt-start)
+;;   (define-key scala-mode-map (kbd "C-c C-r") 'sbt-send-region)
+;;   (define-key scala-mode-map (kbd "C-c C-b") 'sbt-send-buffer)
+;;   (define-key scala-mode-map (kbd "C-c C-k") 'sbt-command)
+;;   (define-key scala-mode-map (kbd "M-.") 'sbt-find-definitions))
 
 ;; scheme
 (with-eval-after-load "scheme"
