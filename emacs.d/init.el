@@ -154,6 +154,7 @@
 (global-set-key (kbd "C-=") 'er/expand-region)
 
 (require-package 'golden-ratio)
+(setq golden-ratio-auto-scale t)
 (golden-ratio-mode t)
 (diminish 'golden-ratio-mode)
 
@@ -170,17 +171,20 @@
 (define-key sp-keymap (kbd "C-{") 'sp-backward-barf-sexp)
 (define-key sp-keymap (kbd "M-D") 'sp-splice-sexp)
 
-(require-package 'magit)
-(with-eval-after-load "magit" (diminish 'magit-auto-revert-mode))
+(require-package '(magit magit-gitflow))
+(with-eval-after-load "magit"
+  (diminish 'magit-auto-revert-mode)
+  (defadvice magit-status (around magit-fullscreen activate)
+    (window-configuration-to-register :magit-fullscreen)
+    ad-do-it
+    (delete-other-windows))
+  (defadvice magit-mode-quit-window (after magit-restore-screen activate)
+    (jump-to-register :magit-fullscreen))
+  (require 'magit-gitflow)
+  (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
 (global-set-key (kbd "C-c g") 'magit-status)
-(defadvice magit-status (around magit-fullscreen activate)
-  (window-configuration-to-register :magit-fullscreen)
-  ad-do-it
-  (delete-other-windows))
-(defadvice magit-mode-quit-window (after magit-restore-screen activate)
-  (jump-to-register :magit-fullscreen))
 
-(require-package '(gitignore-mode gitconfig-mode pcmpl-git git-timemachine))
+(require-package '(gitignore-mode gitconfig-mode git-timemachine))
 (with-eval-after-load "git-timemachine" (diminish 'git-timemachine-mode))
 (require-package '(markdown-mode yaml-mode))
 
@@ -214,11 +218,10 @@
   (define-key company-active-map (kbd "C-n") 'company-select-next)
   (define-key company-active-map (kbd "C-p") 'company-select-previous))
 
-(require-package '(flycheck flycheck-pos-tip))
+(require-package 'flycheck)
 (global-flycheck-mode t)
 (diminish 'flycheck-mode)
-(setq flycheck-check-syntax-automatically '(save mode-enabled)
-      flycheck-display-errors-function #'flycheck-pos-tip-error-messages)
+(setq flycheck-check-syntax-automatically '(save mode-enabled))
 
 (load "util.el")
 (load "shells-conf.el")
