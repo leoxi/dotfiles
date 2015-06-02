@@ -17,7 +17,7 @@
 
   (when (require 'virtualenvwrapper nil t)
     (venv-initialize-eshell))
-  (require 'eshell-prompt-extras)
+  (autoload 'epe-theme-lambda "eshell-prompt-extras")
   (setq eshell-highlight-prompt nil
         eshell-prompt-function 'epe-theme-lambda)
 
@@ -36,6 +36,16 @@
             (eshell/cd firstfile)
             (eshell/cdd))))))
 
+  (defun eshell-next ()
+    (interactive)
+    (let ((buffers (sort (--filter (with-current-buffer it
+                                     (eq major-mode 'eshell-mode))
+                                   (buffer-list))
+                         (lambda (l r) (string< (buffer-name l) (buffer-name r))))))
+      (pop-to-buffer-same-window (or
+                                  (nth (1+ (-elem-index (current-buffer) buffers)) buffers)
+                                  "*eshell*"))))
+
   (defadvice eshell-ls-decorated-name (after add-fancy-symbol (file) activate)
     (cond
      ((file-symlink-p ad-return-value)
@@ -50,6 +60,7 @@
   (add-hook 'eshell-mode-hook
             (lambda ()
               (eshell-smart-initialize)
+              (define-key eshell-mode-map (kbd "C-c n") 'eshell-next)
               (define-key eshell-mode-map (kbd "C-c h")
                 (lambda ()
                   (interactive)

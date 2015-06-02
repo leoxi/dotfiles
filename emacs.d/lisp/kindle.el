@@ -4,8 +4,10 @@
 ;; Created: 2015-01-22
 
 (provide 'kindle)
-(require 's)
-(require 'dash)
+(autoload 's-chomp "s")
+(autoload '-map "dash")
+(autoload '--map "dash")
+(autoload '--filter "dash")
 
 (defvar kindle-position "/Volumes/Kindle/documents/"
   "Kindle position used when remove the sdr files.")

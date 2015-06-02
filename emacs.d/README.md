@@ -16,4 +16,4 @@ Python
 
 Others
 ------
-    brew install fortune ag markdown w3m
+    brew install fortune ag markdown w3m git git-flow

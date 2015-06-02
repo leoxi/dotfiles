@@ -181,6 +181,7 @@
   (defadvice magit-mode-quit-window (after magit-restore-screen activate)
     (jump-to-register :magit-fullscreen))
   (require 'magit-gitflow)
+  (with-eval-after-load "magit-gitflow" (diminish 'magit-gitflow-mode))
   (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
 (global-set-key (kbd "C-c g") 'magit-status)
 
@@ -229,3 +230,5 @@
 (load "erc-conf.el")
 (load "programming.el")
 (load "customface.el")
+
+(eshell)
