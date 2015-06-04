@@ -12,7 +12,7 @@ Javascript
 Python
 ------
     brew install python
-    pip install jedi epc flake8 virtualenvwrapper autopep8 service_factory
+    pip install jedi epc flake8 virtualenvwrapper autopep8 service_factory ipython
 
 Others
 ------

@@ -60,6 +60,7 @@
 (require-package '(virtualenvwrapper pcmpl-pip py-autopep8))
 (require-package '(anaconda-mode company-anaconda))
 (with-eval-after-load "python"
+  (setq python-shell-interpreter "ipython")
   (with-eval-after-load "anaconda-mode"
     (diminish 'anaconda-mode)
 
