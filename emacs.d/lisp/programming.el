@@ -69,12 +69,6 @@
 
   (add-to-list 'company-backends 'company-anaconda)
 
-  (defun python-insert-pdb ()
-    (interactive)
-    (insert "\n")
-    (python-indent-line)
-    (insert "import pdb; pdb.set_trace()\n"))
-
   (defun fun-run-python ()
     (interactive)
     (let ((buffer-proc (format "*%s*" (python-shell-get-process-name nil))))

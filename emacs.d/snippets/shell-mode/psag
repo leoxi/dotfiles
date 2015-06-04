@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: psag
+# key: psag
+# --
+ps aux | ag $1 | ag -v ag

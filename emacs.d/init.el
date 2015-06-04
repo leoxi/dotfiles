@@ -224,6 +224,11 @@
 (diminish 'flycheck-mode)
 (setq flycheck-check-syntax-automatically '(save mode-enabled))
 
+(require-package 'yasnippet)
+(setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+(yas-global-mode t)
+(diminish 'yas-minor-mode)
+
 (load "util.el")
 (load "shells-conf.el")
 (load "mail-conf.el")
