@@ -41,7 +41,8 @@
   (let ((default-directory (locate-dominating-file default-directory ".git")))
     (when default-directory
       (with-temp-buffer
-        (if (zerop (call-process "git" nil t nil "ls-files" "--full-name"))
+        (if (zerop (call-process "git" nil t nil "ls-files"
+                                 "--cached" "--other" "--exclude-standard" "--full-name"))
             (find-file (ido-completing-read
                         (format "Find file project [%s] : "
                                 (file-name-nondirectory

@@ -1,8 +1,0 @@
-export WORKON_HOME=$HOME/.virtualenvs
-export TERM="emacsclient"
-export PYTHONIOENCODING="UTF-8"
-
-(ignore
- (when (executable-find "fortune")
-   (eshell-interactive-print
-    (shell-command-to-string "fortune 70% computers computers -o"))))

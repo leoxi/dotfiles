@@ -31,8 +31,8 @@
       (sp-local-pair "{%" " %}"))))
 
 ;; javascript
-(require-package '(js2-mode tern company-tern skewer-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(require-package '(js2-mode tern company-tern skewer-mode json-reformat))
+(add-to-list 'auto-mode-alist '("\\.\\(js\\|json\\)$" . js2-mode))
 (with-eval-after-load "js2-mode"
   (setq-default js2-basic-offset 2)
   (setq js2-missing-semi-one-line-override t)

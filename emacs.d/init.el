@@ -138,6 +138,13 @@
       display-time-format "%H:%M %m/%d(%a)")
 (display-time-mode t)
 
+(with-eval-after-load "speedbar"
+  (setq speedbar-use-images nil
+        speedbar-indentation-width 2
+        speedbar-show-unknown-files t)
+  (add-to-list 'speedbar-frame-parameters '(width . 30)))
+(global-set-key (kbd "s-s") 'speedbar)
+
 (require-package 'diminish)
 (with-eval-after-load "simple" (diminish 'auto-fill-function))
 (with-eval-after-load "hi-lock" (diminish 'hi-lock-mode))

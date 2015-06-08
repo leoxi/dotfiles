@@ -1,6 +1,7 @@
 # path
 export PATH=$HOME/bin:$PATH
 export WORKON_HOME=~/.virtualenvs
+export PYTHONIOENCODING=UTF-8
 
 # editor
 export EDITOR="emacsclient"
