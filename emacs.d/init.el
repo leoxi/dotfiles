@@ -242,5 +242,3 @@
 (load "erc-conf.el")
 (load "programming.el")
 (load "customface.el")
-
-(eshell)

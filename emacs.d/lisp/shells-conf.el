@@ -69,6 +69,5 @@
                                          (ring-elements eshell-history-ring)))))))))
 
 (defun fun-eshell () (interactive) (eshell t))
-(global-set-key (kbd "C-x M") 'shell)
 (autoload 'eshell-toggle "esh-toggle")
 (global-set-key (kbd "C-x m") 'eshell-toggle)
