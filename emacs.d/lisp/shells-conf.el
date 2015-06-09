@@ -7,6 +7,7 @@
         eshell-history-size 1024
         eshell-buffer-shorthand t
         eshell-banner-message ""
+        eshell-rc-script "~/.emacs.d/profile"
         eshell-aliases-file "~/.emacs.d/alias"
         eshell-cp-interactive-query t
         eshell-ln-interactive-query t
