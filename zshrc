@@ -6,7 +6,7 @@ export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 export ZSH=~/.oh-my-zsh
 
-ZSH_THEME="kardan"
+ZSH_THEME="robbyrussell"
 
 plugins=(brew celery git git-flow osx pip python virtualenvwrapper)
 
@@ -31,3 +31,5 @@ alias cp="cp -i"
 alias reload="source ~/.zshrc"
 alias brews="brew list -1"
 alias bubu="brew update && brew upgrade --all && brew cleanup"
+
+source ~/.zshrc_company

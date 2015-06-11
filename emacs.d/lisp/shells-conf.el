@@ -36,6 +36,21 @@
             (eshell/cd firstfile)
             (eshell/cdd))))))
 
+  (defun eshell/cdt (&rest args)
+    "eshell/cd in remote directorys."
+    (when (tramp-tramp-file-p default-directory)
+      (let* ((parsed (coerce (tramp-dissect-file-name default-directory) 'list))
+             (dir
+              (if args
+                  (if (s-starts-with? "/" (car args))
+                      (apply 'tramp-make-tramp-file-name
+                             (-replace-at 3 (car args) parsed))
+                    (apply 'tramp-make-tramp-file-name
+                           (-replace-at 3 (concat (nth 3 parsed) (car args)) parsed)))
+                (apply 'tramp-make-tramp-file-name
+                       (-replace-at 3 "~" parsed)))))
+        (eshell/cd dir))))
+
   (defun eshell-next ()
     (interactive)
     (let ((buffers (sort (--filter (with-current-buffer it
@@ -69,6 +84,14 @@
                                         (delete-dups
                                          (ring-elements eshell-history-ring)))))))))
 
+(global-set-key (kbd "C-x M") 'shell)
 (defun fun-eshell () (interactive) (eshell t))
-(autoload 'eshell-toggle "esh-toggle")
-(global-set-key (kbd "C-x m") 'eshell-toggle)
+;; (autoload 'eshell-toggle "esh-toggle")
+(defun eshell-pop ()
+  (interactive)
+  (unless (get-buffer eshell-buffer-name)
+    (save-window-excursion
+      (pop-to-buffer (get-buffer-create eshell-buffer-name))
+      (eshell-mode)))
+  (popwin:popup-buffer (get-buffer eshell-buffer-name) :height 20))
+(global-set-key (kbd "C-x m") 'eshell-pop)

@@ -1,4 +1,5 @@
 export TERM="emacsclient"
+export PAGER="cat"
 
 (ignore
  (when (executable-find "fortune")

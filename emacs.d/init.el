@@ -138,13 +138,6 @@
       display-time-format "%H:%M %m/%d(%a)")
 (display-time-mode t)
 
-(with-eval-after-load "speedbar"
-  (setq speedbar-use-images nil
-        speedbar-indentation-width 2
-        speedbar-show-unknown-files t)
-  (add-to-list 'speedbar-frame-parameters '(width . 30)))
-(global-set-key (kbd "s-s") 'speedbar)
-
 (require-package 'diminish)
 (with-eval-after-load "simple" (diminish 'auto-fill-function))
 (with-eval-after-load "hi-lock" (diminish 'hi-lock-mode))
@@ -159,11 +152,6 @@
 
 (require-package 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
-
-(require-package 'golden-ratio)
-(setq golden-ratio-auto-scale t)
-(golden-ratio-mode t)
-(diminish 'golden-ratio-mode)
 
 (require-package 'idomenu)
 (global-set-key (kbd "C-x C-i") 'idomenu)
@@ -192,7 +180,7 @@
   (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
 (global-set-key (kbd "C-c g") 'magit-status)
 
-(require-package '(gitignore-mode gitconfig-mode git-timemachine))
+(require-package '(gitignore-mode gitconfig-mode git-timemachine pcmpl-git))
 (with-eval-after-load "git-timemachine" (diminish 'git-timemachine-mode))
 (require-package '(markdown-mode yaml-mode))
 
@@ -236,9 +224,20 @@
 (yas-global-mode t)
 (diminish 'yas-minor-mode)
 
+(require-package 'popwin)
+(require 'popwin)
+(setq display-buffer-function 'popwin:display-buffer)
+(push '(inferior-python-mode :stick t) popwin:special-display-config)
+(push '("*anaconda-doc*" :stick t :noselect t) popwin:special-display-config)
+(push '(inferior-scheme-mode :stick t) popwin:special-display-config)
+(popwin-mode t)
+(global-set-key (kbd "C-z") popwin:keymap)
+
 (load "util.el")
 (load "shells-conf.el")
 (load "mail-conf.el")
 (load "erc-conf.el")
 (load "programming.el")
 (load "customface.el")
+
+(eshell)

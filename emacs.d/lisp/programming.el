@@ -60,7 +60,8 @@
 (require-package '(virtualenvwrapper pcmpl-pip py-autopep8))
 (require-package '(anaconda-mode company-anaconda))
 (with-eval-after-load "python"
-  (setq python-shell-interpreter "ipython")
+  (setq python-shell-interpreter "ipython"
+        python-shell-interpreter-args "--classic")
   (with-eval-after-load "anaconda-mode"
     (diminish 'anaconda-mode)
 
@@ -93,10 +94,6 @@
   (setq scheme-program-name "petite"
         scheme-macro-expand-command "(expand `%s)")
   (require 'iuscheme)
-
-  (defadvice run-scheme (before split-window activate)
-    (split-window-sensibly (selected-window))
-    (other-window 1))
 
   (define-key scheme-mode-map (kbd "C-`") 'run-scheme)
   (define-key scheme-mode-map (kbd "C-c C-z") 'run-scheme))

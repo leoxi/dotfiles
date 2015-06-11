@@ -12,3 +12,4 @@ alias cd/ cd /
 alias grep grep $*
 alias brews brew list -1
 alias bubu brew update && brew upgrade --all && brew cleanup
+alias ssh cd /ssh:$1:~
