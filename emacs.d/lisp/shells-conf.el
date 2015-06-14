@@ -86,7 +86,7 @@
 
 (global-set-key (kbd "C-x M") 'shell)
 (defun fun-eshell () (interactive) (eshell t))
-;; (autoload 'eshell-toggle "esh-toggle")
+
 (defun eshell-pop ()
   (interactive)
   (unless (get-buffer eshell-buffer-name)

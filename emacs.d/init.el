@@ -224,14 +224,18 @@
 (yas-global-mode t)
 (diminish 'yas-minor-mode)
 
-(require-package 'popwin)
+(require-package '(popwin import-popwin))
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
 (push '(inferior-python-mode :stick t) popwin:special-display-config)
 (push '("*anaconda-doc*" :stick t :noselect t) popwin:special-display-config)
 (push '(inferior-scheme-mode :stick t) popwin:special-display-config)
+(push '("*ag search*" :stick t) popwin:special-display-config)
 (popwin-mode t)
 (global-set-key (kbd "C-z") popwin:keymap)
+
+(require-package 'discover-my-major)
+(global-set-key (kbd "C-h C-m") 'discover-my-major)
 
 (load "util.el")
 (load "shells-conf.el")

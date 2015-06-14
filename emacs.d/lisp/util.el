@@ -51,24 +51,20 @@
           (error "git ls-files failed"))))))
 (global-set-key (kbd "C-x f") 'fun-find-file-in-project)
 
-;; https://github.com/Silex/emacs-config/blob/master/config/tramp.el
 (defun fun-sudo-edit-file ()
   (interactive)
-  (defun local-file-name-as-sudo (file-name)
-    (concat "/sudo::" file-name))
-
-  (defun tramp-file-name-as-sudo (file-name)
-    (let* ((parts (tramp-dissect-file-name file-name))
-           (host (tramp-file-name-host parts)))
-      (setq file-name (replace-regexp-in-string (regexp-quote (concat host ":"))
-                                                (concat host "|sudo:" host ":")
-                                                file-name t t))
-      (setq file-name (replace-regexp-in-string "^/scp" "/ssh" file-name))))
-
-  (defun buffer-file-name-as-sudo (&optional buffer)
-    (let* ((buffer (or buffer (current-buffer)))
-           (file-name (or (buffer-file-name buffer) dired-directory)))
-      (if (tramp-tramp-file-p file-name)
-          (tramp-file-name-as-sudo file-name)
-        (local-file-name-as-sudo file-name))))
-  (find-alternate-file (buffer-file-name-as-sudo)))
+  (let* ((filename (or filename (buffer-file-name)))
+         (parsed (when (tramp-tramp-file-p filename)
+                   (coerce (tramp-dissect-file-name filename) 'list))))
+    (unless filename (error "No file in this buffer."))
+    (find-alternate-file
+     (if (equal '("sudo" "root") (butlast parsed 2))
+         (if (or (string= "localhost" (nth 2 parsed))
+                 (string= (system-name) (nth 2 parsed)))
+             (car (last parsed))
+           (apply 'tramp-make-tramp-file-name
+                  (append (list tramp-default-method nil) (cddr parsed))))
+       (if parsed
+           (apply 'tramp-make-tramp-file-name
+                  (append '("sudo" "root") (cddr parsed)))
+         (tramp-make-tramp-file-name "sudo" nil nil filename))))))

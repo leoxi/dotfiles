@@ -31,7 +31,7 @@
       (sp-local-pair "{%" " %}"))))
 
 ;; javascript
-(require-package '(js2-mode tern company-tern skewer-mode json-reformat))
+(require-package '(js2-mode tern company-tern json-reformat))
 (add-to-list 'auto-mode-alist '("\\.\\(js\\|json\\)$" . js2-mode))
 (with-eval-after-load "js2-mode"
   (setq-default js2-basic-offset 2)
@@ -42,19 +42,24 @@
     (diminish 'tern-mode))
   (add-to-list 'company-backends 'company-tern)
 
-  (with-eval-after-load "skewer-mode"
-    (define-key skewer-mode-map (kbd "C-`") 'run-skewer)
-    (define-key skewer-mode-map (kbd "C-c C-e") 'skewer-eval-defun)
-    (define-key skewer-mode-map (kbd "C-c C-b") 'skewer-load-buffer)
-    (diminish 'skewer-mode))
-
   (add-hook 'js2-mode-hook
             (lambda ()
               (setq mode-name "js2")
               (js2-mode-hide-warnings-and-errors)
               (tern-mode)
-              (skewer-mode)
               (push '("function" . 402) prettify-symbols-alist))))
+
+;; typescript
+(require-package '(typescript-mode tide))
+(with-eval-after-load "typescript-mode"
+  (add-hook 'typescript-mode-hook
+            (lambda ()
+              (tide-setup)
+              (eldoc-mode t)))
+
+  (with-eval-after-load "tide"
+    (define-key tide-mode-map (kbd "M-?") 'tide-documentation-at-point)
+    (diminish 'tide-mode)))
 
 ;; python
 (require-package '(virtualenvwrapper pcmpl-pip py-autopep8))
