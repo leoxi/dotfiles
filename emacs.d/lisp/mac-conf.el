@@ -1,7 +1,9 @@
-(require-package 'exec-path-from-shell)
-(exec-path-from-shell-initialize)
-(exec-path-from-shell-copy-env "WORKON_HOME")
-(exec-path-from-shell-copy-env "PYTHONIOENCODING")
+(let ((path (replace-regexp-in-string
+             "[ \t\n]*$" ""
+             (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+  (setenv "PATH" path)
+  (setq eshell-path-env path)
+  (setq exec-path (split-string path path-separator)))
 
 (setq mac-option-modifier 'super
       mac-command-modifier 'meta)

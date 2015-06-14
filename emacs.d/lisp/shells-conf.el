@@ -89,9 +89,10 @@
 
 (defun eshell-pop ()
   (interactive)
-  (unless (get-buffer eshell-buffer-name)
-    (save-window-excursion
-      (pop-to-buffer (get-buffer-create eshell-buffer-name))
-      (eshell-mode)))
-  (popwin:popup-buffer (get-buffer eshell-buffer-name) :height 20))
+  (let ((buffer "*eshell*"))
+    (unless (get-buffer buffer)
+      (save-window-excursion
+        (pop-to-buffer (get-buffer-create buffer))
+        (eshell-mode)))
+    (popwin:popup-buffer (get-buffer buffer) :height 1.618)))
 (global-set-key (kbd "C-x m") 'eshell-pop)

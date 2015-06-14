@@ -2,7 +2,7 @@ export LANG=en_US.UTF-8
 export PATH=$HOME/bin:$PATH
 export WORKON_HOME=~/.virtualenvs
 export PYTHONIOENCODING=UTF-8
-export SSH_KEY_PATH="~/.ssh/dsa_id"
+export SSH_KEY_PATH=~/.ssh/dsa_id
 
 export ZSH=~/.oh-my-zsh
 
