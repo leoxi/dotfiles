@@ -94,5 +94,5 @@
       (save-window-excursion
         (pop-to-buffer (get-buffer-create buffer))
         (eshell-mode)))
-    (popwin:popup-buffer (get-buffer buffer) :height 1.618)))
+    (popwin:popup-buffer buffer :height 1.618 :stick t)))
 (global-set-key (kbd "C-x m") 'eshell-pop)

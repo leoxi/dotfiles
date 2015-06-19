@@ -32,7 +32,7 @@
         (if (listp ps) ps (list ps))))
 
 (require-package '(better-defaults cl s dash))
-(require 'server)
+(autoload 'server-running-p "server")
 (unless (server-running-p) (server-start))
 (load custom-file t)
 (tooltip-mode -1)
@@ -175,7 +175,7 @@
     (delete-other-windows))
   (defadvice magit-mode-quit-window (after magit-restore-screen activate)
     (jump-to-register :magit-fullscreen))
-  (require 'magit-gitflow)
+  (autoload 'turn-on-magit-gitflow "magit-gitflow")
   (with-eval-after-load "magit-gitflow" (diminish 'magit-gitflow-mode))
   (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
 (global-set-key (kbd "C-c g") 'magit-status)
@@ -196,8 +196,9 @@
       anzu-replace-to-string-separator " => ")
 
 (require-package 'ag)
-(setq ag-highlight-search t
-      ag-reuse-buffers t)
+(with-eval-after-load "ag"
+  (setq ag-highlight-search t
+        ag-reuse-buffers t))
 
 (require-package 'nyan-mode)
 (setq nyan-bar-length 20)
@@ -215,9 +216,10 @@
   (define-key company-active-map (kbd "C-p") 'company-select-previous))
 
 (require-package 'flycheck)
+(setq flycheck-check-syntax-automatically '(save mode-enabled))
+(setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
 (global-flycheck-mode t)
 (diminish 'flycheck-mode)
-(setq flycheck-check-syntax-automatically '(save mode-enabled))
 
 (require-package 'yasnippet)
 (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
@@ -236,6 +238,13 @@
 
 (require-package 'discover-my-major)
 (global-set-key (kbd "C-h C-m") 'discover-my-major)
+
+(require-package 'ace-jump-mode)
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
+(require-package 'drag-stuff)
+(drag-stuff-global-mode t)
+(diminish 'drag-stuff-mode)
 
 (load "util.el")
 (load "shells-conf.el")

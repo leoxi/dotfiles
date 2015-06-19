@@ -8,6 +8,7 @@
             (auto-fill-mode t)
             (setq show-trailing-whitespace t)
             (add-hook 'after-save-hook 'check-parens nil t)
+            (eldoc-mode t)
             (idle-highlight-mode t)
             (push '("lambda" . 955) prettify-symbols-alist)
             (company-mode t)
@@ -52,12 +53,13 @@
 ;; typescript
 (require-package '(typescript-mode tide))
 (with-eval-after-load "typescript-mode"
+  (setq typescript-indent-level 2)
   (add-hook 'typescript-mode-hook
             (lambda ()
-              (tide-setup)
-              (eldoc-mode t)))
+              (tide-setup)))
 
   (with-eval-after-load "tide"
+    (define-key tide-mode-map (kbd "C-c d") 'fun-top-join-line)
     (define-key tide-mode-map (kbd "M-?") 'tide-documentation-at-point)
     (diminish 'tide-mode)))
 
@@ -91,8 +93,7 @@
 
   (add-hook 'python-mode-hook
             (lambda ()
-              (anaconda-mode t)
-              (eldoc-mode t))))
+              (anaconda-mode t))))
 
 ;; scheme
 (with-eval-after-load "scheme"
