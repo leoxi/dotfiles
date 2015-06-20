@@ -18,18 +18,29 @@
 
 ;; web
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(require-package '(web-mode))
+(require-package '(web-mode company-web))
 (with-eval-after-load "web-mode"
   (setq web-mode-markup-indent-offset 2
         web-mode-css-indent-offset 2
         web-mode-code-indent-offset 2
         web-mode-enable-auto-pairing nil
+        web-mode-enable-auto-quoting nil
         web-mode-engines-alist '(("jinja" . "\\.html?\\'")))
+
+  (add-to-list 'company-backends 'company-web-html)
+
   (with-eval-after-load "smartparens-config"
     (sp-with-modes '(web-mode)
       (sp-local-pair "{{" " }}")
       (sp-local-pair "{#" " #}")
       (sp-local-pair "{%" " %}"))))
+
+(with-eval-after-load "css-mode"
+  (setq css-indent-offset 2)
+  (add-hook 'css-mode-hook
+            (lambda ()
+              (company-mode t)
+              (define-key css-mode-map (kbd "C-\\") 'company-complete))))
 
 ;; javascript
 (require-package '(js2-mode tern company-tern json-reformat nodejs-repl))

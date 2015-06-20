@@ -60,7 +60,9 @@
 (setq ido-save-directory-list-file nil
       ido-enter-matching-directory 'first
       ido-use-filename-at-point 'guess
-      ido-use-faces nil)
+      ido-use-faces nil
+      ido-vertical-define-keys 'C-n-and-C-p-only
+      ido-vertical-show-count t)
 (ido-vertical-mode t)
 (flx-ido-mode t)
 

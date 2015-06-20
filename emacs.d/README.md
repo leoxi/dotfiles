@@ -3,11 +3,10 @@ Mail
     EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs brew install mu --with-emacs
     brew install offline-imap
 
-Javascript
+JavaScript
 ----------
     brew install node
-    npm install -g tern
-    npm install -g jshint
+    npm install -g tern jshint
 
 Python
 ------
