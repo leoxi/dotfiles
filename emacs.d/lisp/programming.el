@@ -32,7 +32,7 @@
       (sp-local-pair "{%" " %}"))))
 
 ;; javascript
-(require-package '(js2-mode tern company-tern json-reformat))
+(require-package '(js2-mode tern company-tern json-reformat nodejs-repl))
 (add-to-list 'auto-mode-alist '("\\.\\(js\\|json\\)$" . js2-mode))
 (with-eval-after-load "js2-mode"
   (setq-default js2-basic-offset 2)
@@ -40,8 +40,40 @@
 
   (with-eval-after-load "tern"
     (setq tern-command (append tern-command '("--no-port-file")))
-    (diminish 'tern-mode))
+    (diminish 'tern-mode)
+    (define-key tern-mode-keymap (kbd "C-c C-r") 'js-send-region)
+    (define-key tern-mode-keymap (kbd "C-c r") 'tern-rename-variable)
+    (define-key tern-mode-keymap (kbd "M-?") 'tern-get-docs)
+    (define-key tern-mode-keymap (kbd "M-t") 'tern-get-type))
   (add-to-list 'company-backends 'company-tern)
+
+  (defvar inf-js-buffer "*nodejs*")
+
+  (defun js-send-region (start end)
+    (interactive "r")
+    (comint-send-region inf-js-buffer start end)
+    (comint-send-string inf-js-buffer "\n"))
+
+  (defun js-send-buffer ()
+    (interactive)
+    (js-send-region (point-min) (point-max)))
+
+  (defun js-load-file (filename)
+    (interactive "f")
+    (let ((filename (expand-file-name filename)))
+      (comint-send-string inf-js-buffer (concat "require(\"" filename "\")\n"))))
+
+  (defun switch-to-js ()
+    (interactive)
+    (if (comint-check-proc inf-js-buffer)
+        (switch-to-buffer-other-window inf-js-buffer)
+      (nodejs-repl)))
+
+  (define-key js2-mode-map (kbd "C-`") 'nodejs-repl)
+  (define-key js2-mode-map (kbd "C-c C-r") 'js-send-region)
+  (define-key js2-mode-map (kbd "C-c C-b") 'js-send-buffer)
+  (define-key js2-mode-map (kbd "C-c C-l") 'js-load-file)
+  (define-key js2-mode-map (kbd "C-c C-z") 'switch-to-js)
 
   (add-hook 'js2-mode-hook
             (lambda ()
@@ -49,19 +81,6 @@
               (js2-mode-hide-warnings-and-errors)
               (tern-mode)
               (push '("function" . 402) prettify-symbols-alist))))
-
-;; typescript
-(require-package '(typescript-mode tide))
-(with-eval-after-load "typescript-mode"
-  (setq typescript-indent-level 2)
-  (add-hook 'typescript-mode-hook
-            (lambda ()
-              (tide-setup)))
-
-  (with-eval-after-load "tide"
-    (define-key tide-mode-map (kbd "C-c d") 'fun-top-join-line)
-    (define-key tide-mode-map (kbd "M-?") 'tide-documentation-at-point)
-    (diminish 'tide-mode)))
 
 ;; python
 (require-package '(virtualenvwrapper pcmpl-pip py-autopep8))

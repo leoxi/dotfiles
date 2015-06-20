@@ -14,6 +14,7 @@
      `(fringe ((t (:background nil :foreground ,base03))))
      `(linum ((t (:background nil))))
      `(vertical-border ((t (:foreground ,base02))))
+
      `(eshell-ls-directory ((t (:foreground ,base0C))))
      `(eshell-ls-readonly ((t (:foreground ,base05))))
      `(eshell-ls-product ((t (:foreground ,base05))))
@@ -25,7 +26,9 @@
      `(eshell-ls-symlink ((t (:foreground ,base0E))))
      `(eshell-ls-executable ((t (:foreground ,base08))))
      `(eshell-ls-special ((t (:foreground ,base0B))))
+
      `(anzu-mode-line ((t (:foreground ,base0E))))
+
      `(company-tooltip ((t (:inherit highlight))))
      `(company-tooltip-selection ((t (:inherit match))))
      `(company-tooltip-common ((t (:inherit company-tooltip :weight bold))))
@@ -36,4 +39,11 @@
      `(company-preview-common ((t (:inherit company-preview :weight bold))))
      `(company-preview-search ((t (:inherit secondary-selection))))
      `(company-scrollbar-fg ((t (:inherit region))))
-     `(company-scrollbar-bg ((t (:inherit company-tooltip)))))))
+     `(company-scrollbar-bg ((t (:inherit company-tooltip))))
+
+     `(js2-warning ((t (:underline ,base09))))
+     `(js2-error ((t (:foreground nil :underline ,base08))))
+     `(js2-external-variable ((t (:foreground ,base0E))))
+     `(js2-function-param ((t (:foreground ,base0D))))
+     `(js2-instance-member ((t (:foreground ,base0D))))
+     `(js2-private-function-call ((t (:foreground ,base08)))))))

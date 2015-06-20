@@ -233,6 +233,7 @@
 (push '("*anaconda-doc*" :stick t :noselect t) popwin:special-display-config)
 (push '(inferior-scheme-mode :stick t) popwin:special-display-config)
 (push '("*ag search*" :stick t) popwin:special-display-config)
+(push '("*nodejs*" :stick t) popwin:special-display-config)
 (popwin-mode t)
 (global-set-key (kbd "C-z") popwin:keymap)
 
