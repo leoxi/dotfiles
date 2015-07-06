@@ -104,7 +104,9 @@
 
     (defadvice anaconda-mode-doc-buffer (after change-mode activate)
       (with-current-buffer "*anaconda-doc*"
-        (rst-mode))))
+        (rst-mode)))
+
+    (define-key anaconda-mode-map (kbd "M-,") 'anaconda-nav-pop-marker))
 
   (add-to-list 'company-backends 'company-anaconda)
 

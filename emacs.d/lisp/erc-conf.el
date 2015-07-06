@@ -9,4 +9,4 @@
         erc-track-exclude-types (append erc-hide-list
                                         '("301" "305" "306" "324"
                                           "329" "332" "333" "353"))
-        erc-autojoin-channels-alist '(("freenode.net" "#scala" "#scheme" "#javascript" "#typescript"))))
+        erc-autojoin-channels-alist '(("freenode.net" "#scala" "#scheme" "#javascript"))))

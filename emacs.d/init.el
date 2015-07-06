@@ -170,7 +170,6 @@
 
 (require-package '(magit magit-gitflow))
 (with-eval-after-load "magit"
-  (diminish 'magit-auto-revert-mode)
   (defadvice magit-status (around magit-fullscreen activate)
     (window-configuration-to-register :magit-fullscreen)
     ad-do-it
@@ -230,12 +229,14 @@
 
 (require-package '(popwin import-popwin))
 (require 'popwin)
-(setq display-buffer-function 'popwin:display-buffer)
+(setq display-buffer-function 'popwin:display-buffer
+      popwin:popup-window-height 20)
 (push '(inferior-python-mode :stick t) popwin:special-display-config)
 (push '("*anaconda-doc*" :stick t :noselect t) popwin:special-display-config)
 (push '(inferior-scheme-mode :stick t) popwin:special-display-config)
 (push '("*ag search*" :stick t) popwin:special-display-config)
 (push '("*nodejs*" :stick t) popwin:special-display-config)
+(push '(Man-mode :stick t) popwin:special-display-config)
 (popwin-mode t)
 (global-set-key (kbd "C-z") popwin:keymap)
 
