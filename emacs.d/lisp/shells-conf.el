@@ -61,6 +61,39 @@
                                   (nth (1+ (-elem-index (current-buffer) buffers)) buffers)
                                   "*eshell*"))))
 
+  (defun eshell/sbt-create-project (project &optional gitignore-p scala-version)
+    "Create a scala sbt project with build and gitignore files."
+    (defun create-build-file ()
+      (append-to-file (format "%s\n  %s\n    %s%s\n    %s\n    %s%s\n  )"
+                              "lazy val root = (project in file(\"\.\"))."
+                              "settings("
+                              "name := "
+                              (format "\"%s\"," project)
+                              "version := \"0.1\","
+                              "scalaVersion := "
+                              (format "\"%s\"" (or scala-version "2.11.7")))
+                      nil
+                      (concat project "/build.sbt")))
+    (defun create-gitignore-file ()
+      (append-to-file (format "%s%s%s%s%s"
+                              "*.class\n*.log\n\n"
+                              "# sbt specific\n.cache\n.history\n.lib/\ndist/*\n"
+                              "target/\nlib_managed/\nsrc_managed/\nproject"
+                              "/boot/\nproject/plugins/project/\n\n"
+                              "# Scala-IDE specific\n.scala_dependencies\n.worksheet")
+                      nil
+                      (concat project "/.gitignore")))
+    (if (file-exists-p project)
+        (error (format "Directory %s already exists." project))
+      (progn
+        (--map
+         (mkdir (concat project it) t)
+         '("/src/main/scala/com/kaihaosw" "/src/test/scala/com/kaihaosw"
+           "/lib" "/project" "/target"))
+        (create-build-file)
+        (unless gitignore-p (create-gitignore-file))
+        (eshell/echo (format "Project %s initialized." project)))))
+
   (defadvice eshell-ls-decorated-name (after add-fancy-symbol (file) activate)
     (cond
      ((file-symlink-p ad-return-value)

@@ -127,6 +127,47 @@
             (lambda ()
               (anaconda-mode t))))
 
+;; scala
+(require-package '(scala-mode2 sbt-mode ensime))
+(with-eval-after-load "scala-mode2"
+  (with-eval-after-load "sbt-mode"
+    (setq compilation-skip-threshold 1)
+    (define-key sbt:mode-map (kbd "C-a") 'comint-bol)
+    (define-key sbt:mode-map (kbd "M-RET") 'comint-accumulate))
+
+  (require 'ensime)
+  (with-eval-after-load "ensime"
+    (setq ensime-typecheck-when-idle nil)
+    (diminish 'ensime-mode)
+
+    ;; (define-key ensime-mode-map (kbd "C-`") 'ensime-inf-switch)
+    ;; (define-key ensime-mode-map (kbd "C-c C-r") 'ensime-inf-eval-region)
+    ;; (define-key ensime-mode-map (kbd "C-c C-e") 'ensime-inf-eval-definition)
+    ;; (define-key ensime-mode-map (kbd "C-c C-b") 'ensime-inf-eval-buffer)
+    ;; (define-key ensime-mode-map (kbd "C-c C-l") 'ensime-inf-load-file)
+    (define-key ensime-mode-map (kbd "M-?") 'ensime-show-doc-for-symbol-at-point)
+    (define-key ensime-mode-map (kbd "M-t") 'ensime-print-type-at-point))
+
+  (defun scala-guess-package-from-path ()
+    (s-replace
+     "/" "."
+     (s-chop-suffix
+      "/"
+      (replace-regexp-in-string "^.*/src/\\(main\\|test\\)/scala/" ""
+                                (file-name-directory buffer-file-name)))))
+
+  (defun scala-package-name-from-path ()
+    (interactive)
+    (save-excursion
+      (goto-char 0)
+      (when (looking-at "package ")
+        (kill-line 1))
+      (insert (format "package %s\n" (scala-guess-package-from-path)))))
+
+  (add-hook 'scala-mode-hook
+            (lambda ()
+              (ensime-mode t))))
+
 ;; scheme
 (with-eval-after-load "scheme"
   (setq scheme-program-name "petite"

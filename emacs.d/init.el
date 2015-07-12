@@ -237,6 +237,12 @@
 (push '("*ag search*" :stick t) popwin:special-display-config)
 (push '("*nodejs*" :stick t) popwin:special-display-config)
 (push '(Man-mode :stick t) popwin:special-display-config)
+(push '("*ensime-update*" :stick t) popwin:special-display-config)
+(push '("*inferior-ensime-server-root*" :stick t) popwin:special-display-config)
+(push '("*ensime-inferior-scala*" :stick t) popwin:special-display-config)
+(push '("*ENSIME-Compilation-Result*" :stick t) popwin:special-display-config)
+(push '("^\*sbt*" :regexp t :stick t) popwin:special-display-config)
+(push '("^\*ensime-stacktrace*" :regexp t :stick t) popwin:special-display-config)
 (popwin-mode t)
 (global-set-key (kbd "C-z") popwin:keymap)
 

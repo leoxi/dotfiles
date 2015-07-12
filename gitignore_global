@@ -1,2 +1,6 @@
 *~
 .DS_Store
+
+# scala
+.ensime
+.ensime_cache/
