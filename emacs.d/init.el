@@ -42,7 +42,7 @@
 (global-set-key (kbd "M-g") 'goto-line)
 (global-set-key (kbd "C-x C-k") 'kill-region)
 (global-set-key (kbd "C-c C-k") 'compile)
-(global-set-key (kbd "<f10>") 'toggle-frame-fullscreen)
+(global-set-key (kbd "<f10>") 'toggle-frame-maximized)
 (global-unset-key (kbd "C-z"))
 (when (member "Consolas" (font-family-list))
   (set-face-font 'default "Consolas-13"))
@@ -229,8 +229,7 @@
 
 (require-package '(popwin import-popwin))
 (require 'popwin)
-(setq display-buffer-function 'popwin:display-buffer
-      popwin:popup-window-height 20)
+(setq display-buffer-function 'popwin:display-buffer)
 (push '(inferior-python-mode :stick t) popwin:special-display-config)
 (push '("*anaconda-doc*" :stick t :noselect t) popwin:special-display-config)
 (push '(inferior-scheme-mode :stick t) popwin:special-display-config)

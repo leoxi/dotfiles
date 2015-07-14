@@ -8,6 +8,10 @@ JavaScript
     brew install node
     npm install -g tern jshint
 
+Scala
+-----
+    brew install sbt typesafe-activator scala --with-src --with-docs
+
 Python
 ------
     brew install python

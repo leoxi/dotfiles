@@ -140,7 +140,8 @@
     (setq ensime-typecheck-when-idle nil)
     (diminish 'ensime-mode)
 
-    ;; (define-key ensime-mode-map (kbd "C-`") 'ensime-inf-switch)
+    (define-key ensime-mode-map (kbd "C-~") 'ensime-sbt)
+    (define-key ensime-mode-map (kbd "C-`") 'ensime-inf-switch)
     ;; (define-key ensime-mode-map (kbd "C-c C-r") 'ensime-inf-eval-region)
     ;; (define-key ensime-mode-map (kbd "C-c C-e") 'ensime-inf-eval-definition)
     ;; (define-key ensime-mode-map (kbd "C-c C-b") 'ensime-inf-eval-buffer)
