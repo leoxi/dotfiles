@@ -137,17 +137,32 @@
 
   (require 'ensime)
   (with-eval-after-load "ensime"
-    (setq ensime-typecheck-when-idle nil)
+    (setq ensime-typecheck-when-idle nil
+          ensime-sem-high-faces
+          (remove
+           '(valField . (:inherit font-lock-constant-face :slant italic))
+           (remove
+            '(varField . scala-font-lock:var-face) ensime-sem-high-faces)))
     (diminish 'ensime-mode)
+
+    (defun ensime-enable-eldoc ()
+      (setq-local eldoc-documentation-function
+                  (lambda ()
+                    (when (ensime-connected-p)
+                      (let ((err (ensime-print-errors-at-point)))
+                        (or (and err (not (string= err "")) err)
+                            (ensime-print-type-at-point)))))))
 
     (define-key ensime-mode-map (kbd "C-~") 'ensime-sbt)
     (define-key ensime-mode-map (kbd "C-`") 'ensime-inf-switch)
-    ;; (define-key ensime-mode-map (kbd "C-c C-r") 'ensime-inf-eval-region)
-    ;; (define-key ensime-mode-map (kbd "C-c C-e") 'ensime-inf-eval-definition)
-    ;; (define-key ensime-mode-map (kbd "C-c C-b") 'ensime-inf-eval-buffer)
-    ;; (define-key ensime-mode-map (kbd "C-c C-l") 'ensime-inf-load-file)
+    (define-key ensime-mode-map (kbd "C-c C-r") 'ensime-inf-eval-region)
+    (define-key ensime-mode-map (kbd "C-c C-b") 'ensime-inf-eval-buffer)
+    (define-key ensime-mode-map (kbd "C-c C-l") 'ensime-inf-load-file)
     (define-key ensime-mode-map (kbd "M-?") 'ensime-show-doc-for-symbol-at-point)
-    (define-key ensime-mode-map (kbd "M-t") 'ensime-print-type-at-point))
+
+    (add-hook 'ensime-mode-hook
+              (lambda ()
+                (ensime-enable-eldoc))))
 
   (defun scala-guess-package-from-path ()
     (s-replace

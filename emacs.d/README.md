@@ -19,4 +19,4 @@ Python
 
 Others
 ------
-    brew install fortune ag markdown w3m git git-flow
+    brew install fortune ag markdown tree w3m git git-flow

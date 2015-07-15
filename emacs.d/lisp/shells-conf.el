@@ -61,7 +61,7 @@
                                   (nth (1+ (-elem-index (current-buffer) buffers)) buffers)
                                   "*eshell*"))))
 
-  (defun eshell/sbt-create-project (project &optional gitignore-p scala-version)
+  (defun eshell/sbt-create-project (project &optional scala-version)
     "Create a scala sbt project with build and gitignore files."
     (defun create-build-file ()
       (append-to-file (format "%s\n  %s\n    %s%s\n    %s\n    %s%s\n  )"
@@ -91,7 +91,7 @@
          '("/src/main/scala/com/kaihaosw" "/src/test/scala/com/kaihaosw"
            "/lib" "/project" "/target"))
         (create-build-file)
-        (unless gitignore-p (create-gitignore-file))
+        (create-gitignore-file)
         (eshell/echo (format "Project %s initialized." project)))))
 
   (defadvice eshell-ls-decorated-name (after add-fancy-symbol (file) activate)

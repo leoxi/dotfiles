@@ -42,7 +42,7 @@
 (global-set-key (kbd "M-g") 'goto-line)
 (global-set-key (kbd "C-x C-k") 'kill-region)
 (global-set-key (kbd "C-c C-k") 'compile)
-(global-set-key (kbd "<f10>") 'toggle-frame-maximized)
+(global-set-key (kbd "<f10>") 'toggle-frame-fullscreen)
 (global-unset-key (kbd "C-z"))
 (when (member "Consolas" (font-family-list))
   (set-face-font 'default "Consolas-13"))
