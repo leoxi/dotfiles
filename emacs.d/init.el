@@ -255,6 +255,18 @@
 (drag-stuff-global-mode t)
 (diminish 'drag-stuff-mode)
 
+(require-package 'sr-speedbar)
+(with-eval-after-load "sr-speedbar"
+  (setq speedbar-use-images nil
+        speedbar-indentation-width 2
+        speedbar-show-unknown-files t
+        sr-speedbar-auto-refresh nil)
+  (add-hook 'popwin:before-popup-hook
+            (lambda ()
+              (when (sr-speedbar-exist-p)
+                (sr-speedbar-close)))))
+(global-set-key (kbd "s-s") 'sr-speedbar-toggle)
+
 (load "util.el")
 (load "shells-conf.el")
 (load "mail-conf.el")
