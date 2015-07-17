@@ -136,7 +136,6 @@
 
 (setq display-time-default-load-average nil
       display-time-use-mail-icon t
-      display-time-mail-directory "~/.Maildir/inbox/new"
       display-time-format "%H:%M %m/%d(%a)")
 (display-time-mode t)
 

@@ -1,10 +1,16 @@
 #!/usr/bin/env python
 import os
+from distutils.dir_util import mkpath
 
 
 def link_file(filename, target="~/", hidden=True):
     symbol = "." if hidden else ""
-    link = os.path.expanduser(target) + symbol + filename
+
+    target_dir = os.path.expanduser(target)
+    if not os.path.exists(target_dir):
+        mkpath(target_dir)
+
+    link = target_dir + symbol + filename
     if os.path.lexists(link):
         os.remove(link)
     os.symlink(os.path.realpath(filename), link)
