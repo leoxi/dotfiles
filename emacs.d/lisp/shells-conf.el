@@ -108,6 +108,7 @@
   (add-hook 'eshell-mode-hook
             (lambda ()
               (eshell-smart-initialize)
+              (setenv "TERM" "vt100")
               (define-key eshell-mode-map (kbd "C-c n") 'eshell-next)
               (define-key eshell-mode-map (kbd "C-c h")
                 (lambda ()
@@ -127,5 +128,7 @@
       (save-window-excursion
         (pop-to-buffer (get-buffer-create buffer))
         (eshell-mode)))
-    (popwin:popup-buffer buffer :height 1.618 :stick t)))
+    (if (>= (window-total-width) 168)
+        (popwin:popup-buffer buffer :position 'right :width 0.5 :stick t)
+      (popwin:popup-buffer buffer :height 1.618 :stick t))))
 (global-set-key (kbd "C-x m") 'eshell-pop)

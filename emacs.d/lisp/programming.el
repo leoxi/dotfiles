@@ -130,6 +130,22 @@
 ;; scala
 (require-package '(scala-mode2 sbt-mode ensime))
 (with-eval-after-load "scala-mode2"
+  (defun scala-guess-package-from-path ()
+    (s-replace
+     "/" "."
+     (s-chop-suffix
+      "/"
+      (replace-regexp-in-string "^.*/src/\\(main\\|test\\)/scala/" ""
+                                (file-name-directory buffer-file-name)))))
+
+  (defun scala-package-name-from-path ()
+    (interactive)
+    (save-excursion
+      (goto-char 0)
+      (when (looking-at "package ")
+        (kill-line 1))
+      (insert (format "package %s\n" (scala-guess-package-from-path)))))
+
   (with-eval-after-load "sbt-mode"
     (setq compilation-skip-threshold 1)
     (define-key sbt:mode-map (kbd "C-a") 'comint-bol)
@@ -158,27 +174,12 @@
     (define-key ensime-mode-map (kbd "C-c C-r") 'ensime-inf-eval-region)
     (define-key ensime-mode-map (kbd "C-c C-b") 'ensime-inf-eval-buffer)
     (define-key ensime-mode-map (kbd "C-c C-l") 'ensime-inf-load-file)
+    (define-key ensime-mode-map (kbd "C-c i") 'ensime-import-type-at-point)
     (define-key ensime-mode-map (kbd "M-?") 'ensime-show-doc-for-symbol-at-point)
 
     (add-hook 'ensime-mode-hook
               (lambda ()
                 (ensime-enable-eldoc))))
-
-  (defun scala-guess-package-from-path ()
-    (s-replace
-     "/" "."
-     (s-chop-suffix
-      "/"
-      (replace-regexp-in-string "^.*/src/\\(main\\|test\\)/scala/" ""
-                                (file-name-directory buffer-file-name)))))
-
-  (defun scala-package-name-from-path ()
-    (interactive)
-    (save-excursion
-      (goto-char 0)
-      (when (looking-at "package ")
-        (kill-line 1))
-      (insert (format "package %s\n" (scala-guess-package-from-path)))))
 
   (add-hook 'scala-mode-hook
             (lambda ()
