@@ -1,6 +1,6 @@
 (require-package 'eshell-prompt-extras)
 (with-eval-after-load "esh-opt"
-  (mapc 'require '(em-term em-smart))
+  (mapc 'require '(em-term em-smart pcmpl-utils))
   (setq eshell-cmpl-ignore-case t
         eshell-cmpl-cycle-completions nil
         eshell-save-history-on-exit t

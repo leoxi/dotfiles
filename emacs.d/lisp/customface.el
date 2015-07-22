@@ -46,4 +46,8 @@
      `(js2-external-variable ((t (:foreground ,base0E))))
      `(js2-function-param ((t (:foreground ,base0D))))
      `(js2-instance-member ((t (:foreground ,base0D))))
-     `(js2-private-function-call ((t (:foreground ,base08)))))))
+     `(js2-private-function-call ((t (:foreground ,base08))))
+
+     `(web-mode-block-face ((t (:background nil))))
+
+     `(ensime-implicit-highlight ((t (:underline ,base03)))))))

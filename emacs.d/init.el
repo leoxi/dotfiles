@@ -266,6 +266,9 @@
                 (sr-speedbar-close)))))
 (global-set-key (kbd "s-s") 'sr-speedbar-toggle)
 
+(require-package 'dash-at-point)
+(global-set-key (kbd "C-h C-d") 'dash-at-point)
+
 (load "util.el")
 (load "shells-conf.el")
 (load "mail-conf.el")

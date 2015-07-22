@@ -16,6 +16,9 @@
             (font-lock-add-keywords
              nil `(("\\<\\(FIXME\\|TODO\\)" 1 'font-lock-warning-face prepend)))))
 
+;; mongo
+(require-package 'inf-mongo)
+
 ;; web
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (require-package '(web-mode company-web))
@@ -25,7 +28,7 @@
         web-mode-code-indent-offset 2
         web-mode-enable-auto-pairing nil
         web-mode-enable-auto-quoting nil
-        web-mode-engines-alist '(("jinja" . "\\.html?\\'")))
+        web-mode-engines-alist '(("razor" . "\\.scala.html\\'")))
 
   (add-to-list 'company-backends 'company-web-html)
 
@@ -130,6 +133,8 @@
 ;; scala
 (require-package '(scala-mode2 sbt-mode ensime))
 (with-eval-after-load "scala-mode2"
+  (setq scala-indent:default-run-on-strategy 1)
+
   (defun scala-guess-package-from-path ()
     (s-replace
      "/" "."
@@ -159,15 +164,12 @@
            '(valField . (:inherit font-lock-constant-face :slant italic))
            (remove
             '(varField . scala-font-lock:var-face) ensime-sem-high-faces)))
-    (diminish 'ensime-mode)
 
-    (defun ensime-enable-eldoc ()
-      (setq-local eldoc-documentation-function
-                  (lambda ()
-                    (when (ensime-connected-p)
-                      (let ((err (ensime-print-errors-at-point)))
-                        (or (and err (not (string= err "")) err)
-                            (ensime-print-type-at-point)))))))
+    (defun ensime-print-error-or-type-at-point ()
+      (interactive)
+      (let ((err (ensime-print-errors-at-point)))
+        (or (and err (not (string= err "")) err)
+            (ensime-print-type-at-point))))
 
     (define-key ensime-mode-map (kbd "C-~") 'ensime-sbt)
     (define-key ensime-mode-map (kbd "C-`") 'ensime-inf-switch)
@@ -176,10 +178,7 @@
     (define-key ensime-mode-map (kbd "C-c C-l") 'ensime-inf-load-file)
     (define-key ensime-mode-map (kbd "C-c i") 'ensime-import-type-at-point)
     (define-key ensime-mode-map (kbd "M-?") 'ensime-show-doc-for-symbol-at-point)
-
-    (add-hook 'ensime-mode-hook
-              (lambda ()
-                (ensime-enable-eldoc))))
+    (define-key ensime-mode-map (kbd "M-t") 'ensime-print-error-or-type-at-point))
 
   (add-hook 'scala-mode-hook
             (lambda ()
