@@ -250,22 +250,6 @@
 (require-package 'ace-jump-mode)
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
-(require-package 'drag-stuff)
-(drag-stuff-global-mode t)
-(diminish 'drag-stuff-mode)
-
-(require-package 'sr-speedbar)
-(with-eval-after-load "sr-speedbar"
-  (setq speedbar-use-images nil
-        speedbar-indentation-width 2
-        speedbar-show-unknown-files t
-        sr-speedbar-auto-refresh nil)
-  (add-hook 'popwin:before-popup-hook
-            (lambda ()
-              (when (sr-speedbar-exist-p)
-                (sr-speedbar-close)))))
-(global-set-key (kbd "s-s") 'sr-speedbar-toggle)
-
 (require-package 'dash-at-point)
 (global-set-key (kbd "C-h C-d") 'dash-at-point)
 
